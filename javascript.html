@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" id="name">
+    <button id="btn">check</button>
+    <p id="countDown"></p>
+    <input type="text" id="user" value="Emem">
+    <ul id="users">
+        
+    </ul>
+    <div id="quiz"></div>
+    <table id="table"></table>
+    <table id="calendar"></table>
+
+    <script>
+        
+        
+        
+        // const countDown = document.getElementById('countDown')
+        const btn = document.getElementById('btn');
+        const name = document.getElementById('name');
+        // render another page
+        btn.addEventListener('click', ()=>{
+            let nameValue = name.value.toUpperCase();
+            if(nameValue == 'CHARLES'){
+                window.location.href = `media.html`;
+            }
+        })
+
+        // function for a countdown
+        function countDown(sec) {
+            let count = sec;
+            const interval = setInterval(function() {
+                count--;
+                if (count <= 0) {
+                    clearInterval(interval);
+                    document.getElementById('countDown').innerHTML = 'Time is up!';
+                    return;
+                }
+                document.getElementById('countDown').innerHTML = count;
+            }, 1000);
+        }
+
+        countDown(10);
+
+    //   regex for name
+        const nameRegex = /^[a-zA-Z]{3,}$/;
+        const Name = document.getElementById('name');
+        Name.addEventListener('keyup', ()=>{
+            if(nameRegex.test(Name.value)){
+                Name.style.border = '1px solid green';
+            }else{
+                Name.style.border = '1px solid red';
+            }
+        })
+
+    //  regex for password
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+    //  regex for email
+        const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+
+    // regex to match this pattern X(90), Y(180), X(90)
+        const patternRegex = /^X\((\d{2})\), Y\((\d{2})\), X\((\d{2})\)$/;
+
+    // function to hide password
+        function hidePassword() {
+            const password = document.getElementById('password');
+            const passwordType = password.getAttribute('type');
+            if(passwordType == 'password'){
+                password.setAttribute('type', 'text');
+            }else{
+                password.setAttribute('type', 'password');
+            }
+        }
+    
+    // function to check if password is strong
+        function checkPassword() {
+            const password = document.getElementById('password');
+            const passwordValue = password.value;
+            if(passwordRegex.test(passwordValue)){
+                password.style.border = '1px solid green';
+            }else{
+                password.style.border = '1px solid red';
+            }
+        }
+
+    // function to toggle navbar
+        function toggleNavbar() {
+            const navbar = document.getElementById('navbar');
+            const navbarClass = navbar.className;
+            if(navbarClass == 'navbar'){
+                navbar.className = 'navbar-active';
+            }else{
+                navbar.className = 'navbar';
+            }
+        }
+    // adding an item to cart
+        function addToCart() {
+            const cart = document.getElementById('cart');
+            const cartItems = cart.getElementsByTagName('li');
+            const cartItemsLength = cartItems.length;
+            const item = document.createElement('li');
+            item.innerHTML = `<span>Item ${cartItemsLength + 1}</span>`;
+            cart.appendChild(item);
+        }
+        
+    // switching between login and register
+        function switchLoginRegister() {
+            const login = document.getElementById('login');
+            const register = document.getElementById('register');
+            const loginClass = login.className;
+            const registerClass = register.className;
+            if(loginClass == 'login'){
+                login.className = 'login-active';
+                register.className = 'register';
+            }else{
+                login.className = 'login';
+                register.className = 'register-active';
+            }
+        }
+
+    // switching between light and dark mode
+        function switchLightDark() {
+            const body = document.getElementsByTagName('body')[0];
+            const bodyClass = body.className;
+            if(bodyClass == 'light'){
+                body.className = 'dark';
+            }else{
+                body.className = 'light';
+            }
+        }
+    
+
+// function to create a list of users
+        function createUsers() {
+            const users = document.getElementById('users');
+            const usersList = ['Charles', 'John', 'Jane', 'Emem'];
+            for(let i = 0; i < usersList.length; i++){
+                const user = document.createElement('li');
+                user.innerHTML = usersList[i];
+                users.appendChild(user);
+            }
+        }
+        createUsers();
+
+    // function to authenticate user
+        function authenticateUser() {
+            const users = document.getElementById('users');
+            const usersList = users.getElementsByTagName('li');
+            const usersListLength = usersList.length;
+            const user = document.getElementById('user').value;
+            for(let i = 0; i < usersListLength; i++){
+                if(usersList[i].innerHTML == user){
+                    alert('User found!');
+                    return;
+                }
+            }
+            alert('User not found!');
+        }
+
+        authenticateUser();
+
+        // function to populate a select element
+        // function populateSelect() {
+        //     const select = document.getElementById('select');
+        //     const options = ['option1', 'option2', 'option3'];
+        //     for(let i = 0; i < options.length; i++){
+        //         const option = document.createElement('option');
+        //         option.innerHTML = options[i];
+        //         select.appendChild(option);
+        //     }
+        // }
+        // populateSelect();
+
+        // function to map an array of objects to a select element
+        function mapArrayToSelect() {
+            const select = document.getElementById('select');
+            const options = [{name: 'option1', value: '1'}, {name: 'option2', value: '2'}, {name: 'option3', value: '3'}];
+            for(let i = 0; i < options.length; i++){
+                const option = document.createElement('option');
+                option.innerHTML = options[i].name;
+                option.setAttribute('value', options[i].value);
+                select.appendChild(option);
+            }
+        }
+
+        // function to update the value of a user in an array
+        function updateUser() {
+            const users = document.getElementById('users');
+            const usersList = users.getElementsByTagName('li');
+            const usersListLength = usersList.length;
+            const user = document.getElementById('user').value;
+            for(let i = 0; i < usersListLength; i++){
+                if(usersList[i].innerHTML == user){
+                    usersList[i].innerHTML = 'Quincy';
+                    return;
+                }
+            }
+        }
+        updateUser();
+       
+    // function to validate a form
+        function validateForm() {
+            const name = document.getElementById('name');
+            const nameValue = name.value;
+            const email = document.getElementById('email');
+            const emailValue = email.value;
+            const password = document.getElementById('password');
+            const passwordValue = password.value;
+            const confirmPassword = document.getElementById('confirm-password');
+            const confirmPasswordValue = confirmPassword.value;
+            const pattern = document.getElementById('pattern');
+            const patternValue = pattern.value;
+            if(nameRegex.test(nameValue) && emailRegex.test(emailValue) && passwordRegex.test(passwordValue) && confirmPasswordValue == passwordValue && patternRegex.test(patternValue)){
+                alert('Form is valid!');
+            }else{
+                alert('Form is invalid!');
+            }
+        }
+
+        // create a quiz
+        function createQuiz() {
+            const quiz = document.getElementById('quiz');
+            const quizQuestions = ['What is your name?', 'What is your favorite color?', 'What is your favorite food?'];
+            const quizAnswers = ['Charles', 'Blue', 'Pizza'];
+            for(let i = 0; i < quizQuestions.length; i++){
+                const question = document.createElement('p');
+                question.innerHTML = quizQuestions[i];
+                quiz.appendChild(question);
+                const answer = document.createElement('input');
+                answer.setAttribute('type', 'text');
+                answer.setAttribute('id', `answer${i}`);
+                quiz.appendChild(answer);
+            }
+        }
+        createQuiz();
+        // funtion to check if the quiz is complete
+        function checkQuiz() {
+            const quiz = document.getElementById('quiz');
+            const quizQuestions = quiz.getElementsByTagName('p');
+            const quizQuestionsLength = quizQuestions.length;
+            const quizAnswers = quiz.getElementsByTagName('input');
+            const quizAnswersLength = quizAnswers.length;
+            for(let i = 0; i < quizQuestionsLength; i++){
+                if(quizAnswers[i].value == ''){
+                    alert('Quiz is incomplete!');
+                    return;
+                }
+            }
+            alert('Quiz is complete!');
+        }
+        checkQuiz();
+        // function to mark a quiz question as correct
+        function markQuizQuestion() {
+            const quiz = document.getElementById('quiz');
+            const quizQuestions = quiz.getElementsByTagName('p');
+            const quizQuestionsLength = quizQuestions.length;
+            const quizAnswers = quiz.getElementsByTagName('input');
+            const quizAnswersLength = quizAnswers.length;
+            for(let i = 0; i < quizQuestionsLength; i++){
+                if(quizAnswers[i].value == quizAnswers[i].id){
+                    quizQuestions[i].className = 'correct';
+                }
+            }
+        }
+
+        markQuizQuestion();
+    
+
+    // function to create a table
+        function createTable() {
+            const table = document.getElementById('table');
+            const tableHead = document.createElement('thead');
+            const tableHeadRow = document.createElement('tr');
+            const tableHeadRowCells = ['Name', 'Age', 'class'];
+            for(let i = 0; i < tableHeadRowCells.length; i++){
+                const tableHeadRowCell = document.createElement('th');
+                tableHeadRowCell.innerHTML = tableHeadRowCells[i];
+                tableHeadRow.appendChild(tableHeadRowCell);
+            }
+            tableHead.appendChild(tableHeadRow);
+            table.appendChild(tableHead);
+            const tableBody = document.createElement('tbody');
+            const tableBodyRows = [{name: 'Charles', age: '21', class: 'freshman'}, {name: 'Quincy', age: '20', class: 'sophomore'}, {name: 'John', age: '19', class: 'junior'}, {name: 'Jane', age: '18', class: 'senior'}];
+            for(let i = 0; i < tableBodyRows.length; i++){
+                const tableBodyRow = document.createElement('tr');
+                const tableBodyRowCells = [tableBodyRows[i].name, tableBodyRows[i].age, tableBodyRows[i].class];
+                for(let j = 0; j < tableBodyRowCells.length; j++){
+                    const tableBodyRowCell = document.createElement('td');
+                    tableBodyRowCell.innerHTML = tableBodyRowCells[j];
+                    tableBodyRow.appendChild(tableBodyRowCell);
+                }
+                tableBody.appendChild(tableBodyRow);
+            }
+            table.appendChild(tableBody);
+        }
+        createTable();
+
+        
+    </script>
+</body>
+</html>
